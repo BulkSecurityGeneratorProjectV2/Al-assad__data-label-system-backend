@@ -17,12 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class PageCtl {
     
-    
-    
     @RequestMapping("/index.html")
     public String toIndex() {
         return "index";
     }
+    
     
     @RequestMapping("/taskManager.html")
     public ModelAndView toTaskManager(HttpServletRequest request) {
@@ -63,18 +62,22 @@ public class PageCtl {
         return "form_center";
     }
     
-    @RequestMapping("/customForm.html")
-    public String toCuntomForm(HttpServletRequest request, ModelMap model) {
+    /**
+     * 新增表单
+     */
+    @RequestMapping("/addForm.do")
+    public String addForm(HttpServletRequest request, ModelMap model, Integer type, boolean edit){
         //权限验证
         AdminInfoDTO adminInfo = SessionUtil.getAdminInfo(request);
         if (adminInfo == null) {
             return "index";
         }
         model.put("adminInfo", adminInfo);
-        
-        
-        return "custom_form";
+        model.put("type", type);
+        model.put("edit", edit);
+        return "add_form";
     }
+    
     
     
 }

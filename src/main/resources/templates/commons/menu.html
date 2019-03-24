@@ -48,9 +48,9 @@
                         </li>
                         <li><a><i class="fa fa-cube"></i> 自定义模版 <span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
-                                <li><a th:href="@{/customForm.html}">文本标注</a></li>
-                                <li><a th:href="@{/customForm.html}">图片标注</a></li>
-                                <li><a th:href="@{/customForm.html}">音频标注</a></li>
+                                <li><a th:href="@{/addForm.do(type=1,edit='false')}">文本标注</a></li>
+                                <li><a th:href="@{/addForm.do(type=2,edit='false')}">图片标注</a></li>
+                                <li><a th:href="@{/addForm.do(type=3,edit='false')}">音频标注</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -69,8 +69,8 @@
                 <a data-toggle="tooltip" data-placement="top" title="模版中心" th:href="@{/formCenter.html}">
                     <span class="fa fa-cloud" aria-hidden="true"></span>
                 </a>
-                <a data-toggle="tooltip" data-placement="top" title="自定义模版" th:href="@{/customForm.html}">
-                    <span class="fa fa-cube" aria-hidden="true"></span>
+                <a data-toggle="tooltip" data-placement="top" title="登出" th:href="@{/index.html}">
+                    <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                 </a>
             </div>
             <!-- /menu footer buttons -->

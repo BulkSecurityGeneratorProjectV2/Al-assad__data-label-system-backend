@@ -4,16 +4,238 @@
 <header th:replace="commons/header :: header"></header>
 
 <body class="nav-md">
+<script>
+    function submit(update) {
+        if (update) {
+            $('isUpdate').attr('value', true);
+        } else {
+            $('isUpdate').attr('value', false);
+        }
+    }
+</script>
+
 <div class="container body">
     <div class="main_container">
 
         <div th:replace="commons/menu :: menu"></div>
         <div th:replace="commons/menu :: nav"></div>
 
+        <!--page content-->
+        <div class="right_col" role="main">
+
+            <!--form info-->
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <div class="x_panel">
+
+                        <div class="x_title" th:switch="${edit}">
+                            <h2 th:case="${true}">编辑标注任务
+                                <small th:switch="${type}">
+                                    <span th:case="${1}">文本类型标注任务</span>
+                                    <span th:case="${2}">图片类型标注任务</span>
+                                    <span th:case="${3}">音频类型标注任务</span>
+                                </small>
+                            </h2>
+                            <h2 th:case="${false}">新增标注任务
+                                <small th:switch="${type}">
+                                    <span th:case="${1}">文本类型标注任务</span>
+                                    <span th:case="${2}">图片类型标注任务</span>
+                                    <span th:case="${3}">音频类型标注任务</span>
+                                </small>
+                            </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="x_content">
+                            <br/>
+                            <form class="form-horizontal form-label-left" th:action="${edit} ? @{/form/update.do} : @{/form/add.do}"
+                                  method="post">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">标注任务标题</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" name="formVO.title" class="form-control" placeholder="描述标注任务标题">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">任务填写上限</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" name="formVO.limitNum" class="form-control" placeholder="标注任务的客户端填写上限">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">标注任务描述<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <textarea name="description" class="form-control" rows="8" placeholder="描述标注任务的规则"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">标注任务字段定义</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <input name="itemContent" type="text" class="form-control" placeholder="描述标注字段内容">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">标注字段填写类型</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12" th:if="${!edit}">
+                                        <select name="form.itemType" class="form-control">
+                                            <option value="1">填写型</option>
+                                            <option value="2">选择型</option>
+                                        </select>
+
+                                    </div>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <select name="form.itemType" class="form-control" th:if="${edit}" disabled="disabled">
+                                            <option value="1">填写型</option>
+                                            <option value="2">选择型</option>
+                                        </select>
+                                    </div>
+                                </div>
 
 
+                                <div class="control-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">选项型文本</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <input name="form.itemTags" id="tags_1" type="text" class="tags form-control" value="实例文本1,实例文本2"/>
+                                        <div id="suggestions-container"
+                                             style="position: relative; float: left; width: 250px; margin: 10px;"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <input name="form.type" th:value="${type}" hidden="hidden"/>
+                                    <input id="isUpdate" name="update" hidden="hidden"/>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                        <button type="submit" class="btn btn-primary" onclick="submit(true)">保存表单</button>
+                                        <button type="submit" class="btn btn-success" onclick="submit(false)">发布表单</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target=".bs-example-modal-lg">导入数据源
+                                        </button>
+
+                                        <!--modal-->
+                                        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <form>
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"><span
+                                                                    aria-hidden="true">×</span>
+                                                            </button>
+                                                            <h4 class="modal-title" id="myModalLabel">请选择需要上传的文件</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h4>文件限制</h4>
+                                                            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus
+                                                                sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+                                                            <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna,
+                                                                vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper
+                                                                nulla non metus auctor fringilla.</p>
+
+                                                            <br/>
+                                                            <div class="input-group">
+                                                                <input type="file" class="form-control">
+                                                                <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-primary">选择文件</button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-primary">上传</button>
+                                                        </div>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <!--end modal-->
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- datasource preview-->
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>数据源预览</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <table id="datatable" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Position</th>
+                                    <th>Office</th>
+                                    <th>Age</th>
+                                    <th>Start date</th>
+                                    <th>Salary</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr>
+                                    <td>Tiger Nixon</td>
+                                    <td>System Architect</td>
+                                    <td>Edinburgh</td>
+                                    <td>61</td>
+                                    <td>2011/04/25</td>
+                                    <td>$320,800</td>
+                                </tr>
+                                <tr>
+                                    <td>Garrett Winters</td>
+                                    <td>Accountant</td>
+                                    <td>Tokyo</td>
+                                    <td>63</td>
+                                    <td>2011/07/25</td>
+                                    <td>$170,750</td>
+                                </tr>
+                                <tr>
+                                    <td>Ashton Cox</td>
+                                    <td>Junior Technical Author</td>
+                                    <td>San Francisco</td>
+                                    <td>66</td>
+                                    <td>2009/01/12</td>
+                                    <td>$86,000</td>
+                                </tr>
+                                <tr>
+                                    <td>Cedric Kelly</td>
+                                    <td>Senior Javascript Developer</td>
+                                    <td>Edinburgh</td>
+                                    <td>22</td>
+                                    <td>2012/03/29</td>
+                                    <td>$433,060</td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--page content-->
 
         <div th:replace="commons/footer :: footer"></div>
+
     </div>
 </div>
 
