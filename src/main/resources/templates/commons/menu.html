@@ -1,94 +1,111 @@
 <!-- left menu -->
-<div xmlns:th="http://www.thymeleaf.org" th:fragment="menu" class="col-md-3 left_col">
-    <div class="left_col scroll-view">
-        <div class="navbar nav_title" style="border: 0;">
-            <a href="taskManager.html" class="site_title"><i class="fa fa-laptop"></i> <span> 数据标注控制台 </span></a>
-        </div>
-
-        <div class="clearfix"></div>
-
-        <!-- menu profile quick info -->
-        <div class="profile clearfix">
-            <div class="profile_pic">
-                <img th:src="@{/images/favico.png}" alt="..." class="img-circle profile_img">
-            </div>
-            <div class="profile_info">
-                <span>Welcome,</span>
-                <h2>Al-assad</h2>
-            </div>
-        </div>
-        <!-- /menu profile quick info -->
-
-        <br/>
-
-        <!-- sidebar menu -->
-        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-            <div class="menu_section">
-                <h3>用户资源</h3>
-                <ul class="nav side-menu">
-                    <li><a href="taskManager.html"><i class="fa fa-home"></i> 任务管理 <span class="fa fa-chevron-down"></span></a>
-                    </li>
-                    <li><a href="index.html"><i class="fa fa-edit"></i> 机构信息 <span class="fa fa-chevron-down"></span></a>
-                    </li>
-                </ul>
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="menu">
+    <div class="col-md-3 left_col">
+        <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+                <a th:href="@{taskManager.html}" class="site_title"><i class="fa fa-laptop"></i> <span> 数据标注控制台 </span></a>
             </div>
 
-            <div class="menu_section">
-                <h3>资源中心</h3>
-                <ul class="nav side-menu">
-                    <li><a href="index.html"><i class="fa fa-bug"></i> 模版中心 <span class="fa fa-chevron-down"></span></a>
-                    </li>
-                    <li><a href="index.html"><i class="fa fa-bug"></i> 自定义模版 <span class="fa fa-chevron-down"></span></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!-- /sidebar menu -->
+            <div class="clearfix"></div>
 
-        <!-- /menu footer buttons -->
-        <div class="sidebar-footer hidden-small">
-            <a data-toggle="tooltip" data-placement="top" title="任务管理" href="taskManager.html">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-            </a>
-            <a data-toggle="tooltip" data-placement="top" title="机构信息" href="index.html">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-            </a>
-            <a data-toggle="tooltip" data-placement="top" title="模版中心" href="login.html">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-            </a>
-            <a data-toggle="tooltip" data-placement="top" title="自定义模版" href="login.html">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-            </a>
+            <!-- menu profile quick info -->
+            <div class="profile clearfix">
+                <div class="profile_pic">
+                    <img th:src="@{/images/favico.png}" alt="..." class="img-circle profile_img">
+                </div>
+                <div class="profile_info">
+                    <span>Welcome,</span>
+                    <!--/*@thymesVar id="adminInfo" type="site.assad.datalabel.dto.AdminInfoDTO"*/-->
+                    <h2 th:text="${adminInfo.userName}"></h2>
+                </div>
+            </div>
+            <!-- /menu profile quick info -->
+
+            <br/>
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                <div class="menu_section">
+                    <h3>用户资源</h3>
+                    <ul class="nav side-menu">
+                        <li><a th:href="@{/taskManager.html}"><i class="fa fa-area-chart"></i> 任务管理 <span class="fa fa-chevron-down"></span></a>
+                        </li>
+                        <li><a th:href="@{/orgInfo.html}"><i class="fa fa-edit"></i> 机构信息 <span class="fa fa-chevron-down"></span></a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="menu_section">
+                    <h3>资源中心</h3>
+                    <ul class="nav side-menu">
+                        <li><a><i class="fa fa-cloud"></i> 模版中心 <span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li><a th:href="@{/formCenter.html}">全部类型</a></li>
+                                <li><a th:href="@{/formCenter.html}">文本标注</a></li>
+                                <li><a th:href="@{/formCenter.html}">图片标注</a></li>
+                                <li><a th:href="@{/formCenter.html}">音频标注</a></li>
+                            </ul>
+                        </li>
+                        <li><a><i class="fa fa-cube"></i> 自定义模版 <span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li><a th:href="@{/customForm.html}">文本标注</a></li>
+                                <li><a th:href="@{/customForm.html}">图片标注</a></li>
+                                <li><a th:href="@{/customForm.html}">音频标注</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+            <div class="sidebar-footer hidden-small">
+                <a data-toggle="tooltip" data-placement="top" title="任务管理" th:href="@{/taskManager.html}">
+                    <span class="fa fa-area-chart" aria-hidden="true"></span>
+                </a>
+                <a data-toggle="tooltip" data-placement="top" title="机构信息" th:href="@{/orgInfo.html}">
+                    <span class="fa fa-edit" aria-hidden="true"></span>
+                </a>
+                <a data-toggle="tooltip" data-placement="top" title="模版中心" th:href="@{/formCenter.html}">
+                    <span class="fa fa-cloud" aria-hidden="true"></span>
+                </a>
+                <a data-toggle="tooltip" data-placement="top" title="自定义模版" th:href="@{/customForm.html}">
+                    <span class="fa fa-cube" aria-hidden="true"></span>
+                </a>
+            </div>
+            <!-- /menu footer buttons -->
         </div>
-        <!-- /menu footer buttons -->
     </div>
 </div>
 <!-- left menu -->
 
 
-
 <!-- top navigation -->
-<div xmlns:th="http://www.thymeleaf.org" th:fragment="nav" class="top_nav">
-    <div class="nav_menu">
-        <nav>
-            <div class="nav toggle">
-                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-            </div>
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="nav">
+    <div class="top_nav">
+        <div class="nav_menu">
+            <nav>
+                <div class="nav toggle">
+                    <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                </div>
 
-            <ul class="nav navbar-nav navbar-right">
-                <li class="">
-                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <img th:src="@{/images/favico.png}" alt="">Al-assad
-                        <span class=" fa fa-angle-down"></span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-usermenu pull-right">
-                        <li><a href="index.html"> 机构信息 </a></li>
-                        <li><a th:href="index.html"><i class="fa fa-sign-out pull-right"></i> 取消登录 </a></li>
-                        <li><a href="https://github.com/Al-assad/data-label-system-backend"> 开发者Github </a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="">
+                        <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <img th:src="@{/images/favico.png}" alt="">
+                            <!--/*@thymesVar id="adminInfo" type="site.assad.datalabel.dto.AdminInfoDTO"*/-->
+                            <span th:text="${adminInfo.userName}"></span>
+                            <span class=" fa fa-angle-down"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-usermenu pull-right">
+                            <li><a th:href="@{/formCenter.html}"> 机构信息 </a></li>
+                            <li><a th:href="@{/index.html}"><i class="fa fa-sign-out pull-right"></i> 取消登录 </a></li>
+                            <li><a href="https://github.com/Al-assad/data-label-system-backend"> 开发者Github </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
 </div>
 <!-- /top navigation -->

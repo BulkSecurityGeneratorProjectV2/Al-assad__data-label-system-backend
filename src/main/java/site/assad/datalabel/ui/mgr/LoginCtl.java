@@ -51,7 +51,7 @@ public class LoginCtl {
         SessionUtil.setAdminInfo(request, adminInfo);
         
         ModelAndView mv = new ModelAndView("task_manager");
-        
+        mv.addObject("adminInfo", adminInfo);
         return mv;
     }
     

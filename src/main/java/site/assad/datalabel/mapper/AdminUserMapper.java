@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import site.assad.datalabel.po.AdminUserPO;
 
-@Mapper()
+@Mapper
 public interface AdminUserMapper {
     
     @Select("select * from admin_user where user_name=#{username} and pwd=#{password} ")

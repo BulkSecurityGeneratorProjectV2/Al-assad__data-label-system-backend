@@ -59,6 +59,9 @@ public class ConstantUtil {
      */
     public final static Integer FORM_STATUS_CLOSE = 2;
     
-    
+    /**
+     * 缺省orgId
+     */
+    public final static String ORG_ID_TEMPLATE = "template";
     
 }
