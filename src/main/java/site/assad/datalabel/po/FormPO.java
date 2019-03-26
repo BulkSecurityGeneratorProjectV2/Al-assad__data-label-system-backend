@@ -1,6 +1,10 @@
 package site.assad.datalabel.po;
 
+import site.assad.datalabel.vo.FormVO;
+
+import java.text.Normalizer;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  *
@@ -117,5 +121,17 @@ public class FormPO {
     
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+    
+    /**
+     * 获取初始化的po
+     */
+    public static FormPO getInitPO(){
+        FormPO po = new FormPO();
+        po.setFormId(UUID.randomUUID().toString());
+        po.setCurNum(0);
+        po.setSourceCount(0);
+        po.setCreateTime(new Date());
+        return po;
     }
 }

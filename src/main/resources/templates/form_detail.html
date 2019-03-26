@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<header th:replace="commons/header :: header"></header>
+
+<body class="nav-md">
+
+<div class="container body">
+    <div class="main_container">
+
+        <div th:replace="commons/menu :: menu"></div>
+        <div th:replace="commons/menu :: nav"></div>
+        <!--page content-->
+        <div class="right_col" role="main">
+            <!-- message-->
+            <div class="x_content bs-example-popovers" th:switch="${msg.level}">
+                <div class="alert alert-success alert-dismissible fade in" role="alert" th:case="${1}">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong class="result-msg" th:text="${msg.msg}"></strong>
+                </div>
+                <div class="alert alert-info alert-dismissible fade in" role="alert" th:case="${2}">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong class="result-msg" th:text="${msg.msg}"></strong>
+                </div>
+                <div class="alert alert-warning alert-dismissible fade in" role="alert" th:case="${3}">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong class="result-msg" th:text="${msg.msg}"></strong>
+                </div>
+            </div>
+            <!--message end-->
+
+            <!--form info-->
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <div class="x_panel">
+
+                        <div class="x_title">
+                            <h2>编辑标注任务
+                                <small th:switch="${form.type}">
+                                    <span th:case="${1}">文本类型标注任务</span>
+                                    <span th:case="${2}">图片类型标注任务</span>
+                                    <span th:case="${3}">音频类型标注任务</span>
+                                </small>
+                            </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="x_content">
+                            <br/>
+                            <form id="submitForm" name= "submitForm" class="form-horizontal form-label-left" th:action="@{/form/update.do}"
+                                  method="post">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">标注任务标题</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" name="title" class="form-control" placeholder="描述标注任务标题"
+                                               th:value="${form.title}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">任务填写上限</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <input type="text" name="limitNum" class="form-control" placeholder="标注任务的客户端填写上限"
+                                               th:value="${form.limitNum}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">标注任务描述
+                                    </label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <textarea name="description" class="form-control" rows="8" placeholder="描述标注任务的规则"
+                                                  th:text="${form.description}"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">标注任务字段定义</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <input name="itemContent" type="text" class="form-control" placeholder="描述标注字段内容"
+                                               th:value="${form.itemContent}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">标注字段填写类型</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <select name="itemType" class="form-control" th:switch="${form.itemType}">
+                                            <span th:case="${1}">
+                                                <option value="1" selected="selected">填写型</option>
+                                                <option value="2">选择型</option>
+                                            </span>
+                                            <span th:case="${2}">
+                                                <option value="1">填写型</option>
+                                                <option value="2" selected="selected">选择型</option>
+                                            </span>
+                                        </select>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="control-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">选项型文本</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <input name="itemTags" id="tags_1" type="text" class="tags form-control"
+                                               th:value="${form.itemTags}"/>
+                                        <div id="suggestions-container"
+                                             style="position: relative; float: left; width: 250px; margin: 10px;"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <input id="formId" name="formId" th:value="${form.formId}" type="hidden"/>
+                                    <input name="type" th:value="${form.type}" type="hidden"/>
+                                </div>
+
+                            </form>
+                                <div class="form-group">
+                                    <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                        <button type="button" class="btn btn-primary" onclick="submit(0)">保存表单</button>
+                                        <button type="button" class="btn btn-success" onclick="submit(1)">发布表单</button>
+                                        <button type="button" id="popUploadModel" class="btn btn-primary" data-toggle="modal"
+                                                data-target=".bs-example-modal-lg">导入数据源
+                                        </button>
+
+                                        <!--modal-->
+                                        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <form id="uploadForm" method="post">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" id="closeUploadModal" class="close" data-dismiss="modal"><span
+                                                                    aria-hidden="true">×</span>
+                                                            </button>
+                                                            <h4 class="modal-title" id="myModalLabel">请选择需要上传的文件</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>请上传zip格式的文件，文件大小小于20M</p>
+                                                            <p>文本类型数据源请使用 txt 格式保存，每一行为一个数据源，文本换行使用/r/n，并打包为 zip 压缩包上传</p>
+                                                            <p>图片类型数据源请使用 png 格式，并打包为 zip 压缩包上传，压缩包内的图片文件名称不能重复</p>
+                                                            <p>音频类型数据源请使用 格式保存，并打包为 zip 压缩包上传，压缩包内的音频文件名称不能重复</p>
+                                                            <br/>
+                                                            <div class="input-group">
+                                                                <input name="uploadFile" type="file" class="form-control" />
+                                                                <input name="type" type="hidden" th:value="${form.type}"/>
+                                                                <input name="formId" th:value="${form.formId}" type="hidden"/>
+                                                                <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-primary">选择文件</button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-primary" onclick="upload()">上传</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <!--end modal-->
+                                    </div>
+                                </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- datasource preview-->
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>数据源预览</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <button type="button" class="btn btn-primary" onclick="refreshData()">刷新数据源</button>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <table id="datatable" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>排序</th>
+                                    <th>内容</th>
+                                    <th>路径</th>
+                                    <th>创建时间</th>
+                                </tr>
+                                </thead>
+
+                                <tbody id="dataView">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--page content-->
+
+        <div th:replace="commons/footer :: footer"></div>
+
+    </div>
+</div>
+
+<span th:replace="commons/script :: commonJs"></span>
+
+<script th:inline="javascript">
+
+    //表单提交
+    function submit(status) {
+        var form = $('#submitForm');
+        var input = $("<input type='hidden'>").attr("name", "formStatus").val(status);
+        form.append(input);
+        form.submit();
+    }
+    /*<![CDATA[*/
+    var basePath = /*[[@{/}]]*/;
+    /*]]>*/
+
+    //文件上传
+    function upload() {
+        $(".result-msg").text("文件上传中，请稍后。。。");
+        $("#popUploadModel").hide();
+        var formData = new FormData($("#uploadForm")[0]);
+
+        $.ajax({
+            //接口地址
+            url: basePath + "form/upload.do",
+            type: 'POST',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                var msg;
+                if(data.toString()  == '1'){
+                    msg = "上传成功";
+                } else if(data.toString() == '-1') {
+                    msg = "文件过大，请上传小于20M的文件";
+                }else if(data.toString() == '-2') {
+                    msg = "被压缩的文件格式不正确";
+                }else if(data.toString() == '-3') {
+                    msg = "上传的压缩包中没有合法内容";
+                }else if(data.toString() == '-4') {
+                    msg = "上传的压缩包中文件格式不支持";
+                }else if(data.toString() == '-5') {
+                    msg = "文件解析失败";
+                }else {
+                    msg = "上传文件失败";
+                }
+                $(".result-msg").text(msg);
+                $("#popUploadModel").show();
+                refreshData();
+            },
+            error: function (returndata) {
+                $(".result-msg").text("网络访问失败，请稍后重试!");
+                $("#popUploadModel").show();
+            }
+        });
+        $("#closeUploadModal").click();
+    }
+
+    //刷新数据源
+    /*<![CDATA[*/
+    var formId = /*[[${form.formId}]]*/;
+    /*]]>*/
+    function refreshData() {
+        $.ajax({
+            //接口地址
+            url: basePath + "form/getDataSource.do",
+            type: 'POST',
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' },
+            data: "formId="+formId,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                var json = eval(data);
+                var dataView = $('#dataView');
+                dataView.empty();
+                $.each(json,function(index){
+                    var tr = $("<tr></tr>");
+                    tr.append($("<td></td>").text(json[index].sort));
+                    tr.append($("<td></td>").text(json[index].content));
+                    tr.append($("<td></td>").text(json[index].path));
+                    tr.append($("<td></td>").text(json[index].createTime));
+                    dataView.append(tr);
+                });
+            },
+            error: function (returndata) {
+               alert('error');
+            }
+        });
+    }
+
+
+    $(function(){
+        refreshData();
+        $('#datatable_length').hide();
+        $('#datatable_filter').hide();
+    });
+
+
+</script>
+
+</body>
+</html>

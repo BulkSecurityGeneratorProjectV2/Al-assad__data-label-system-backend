@@ -1,6 +1,17 @@
 package site.assad.datalabel.vo;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
+import site.assad.datalabel.po.FormPO;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+
+import static site.assad.datalabel.util.ConstantUtil.ITEM_TYPE_RADIO;
 
 /**
  *
@@ -21,6 +32,7 @@ public class FormVO {
     private Integer type;
     private Integer itemType;
     private String itemContent;
+    private String itemTags;
     private Date createTime;
     
     public String getFormId() {
@@ -118,4 +130,44 @@ public class FormVO {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+    
+    public String getItemTags() {
+        return itemTags;
+    }
+    
+    public void setItemTags(String itemTags) {
+        this.itemTags = itemTags;
+    }
+    
+    public List<String> getItemOption(){
+        String tags = getItemTags();
+        if (StringUtils.isEmpty(tags)) {
+            return new ArrayList<>(0);
+        }
+        String[] tagArray = tags.trim().split(",");
+        if (ArrayUtils.isEmpty(tagArray)) {
+            return new ArrayList<>(0);
+        }
+        return Arrays.asList(tagArray);
+    }
+    /**
+     * 发布参数校验
+     */
+    public static boolean publishValid(FormVO vo){
+        if (vo == null){
+            return false;
+        }
+        if (StringUtils.isEmpty(vo.getTitle()) || StringUtils.isEmpty(vo.getDescription()) || StringUtils.isEmpty(vo.getItemContent())
+                || vo.getLimitNum() == 0 || vo.getItemType() == null || vo.getType() == null) {
+            return false;
+        }
+        if (ITEM_TYPE_RADIO.equals(vo.getItemType()) && CollectionUtils.isEmpty(vo.getItemOption())) {
+            return false;
+        }
+        if (vo.getLimitNum() < 1) {
+            return false;
+        }
+        return true;
+    }
+    
 }

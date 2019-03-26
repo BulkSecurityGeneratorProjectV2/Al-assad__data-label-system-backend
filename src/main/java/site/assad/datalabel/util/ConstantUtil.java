@@ -64,4 +64,21 @@ public class ConstantUtil {
      */
     public final static String ORG_ID_TEMPLATE = "template";
     
+    /**
+     * 消息等级：成功
+     */
+    public final static Integer MSG_SUCCESS = 1;
+    
+    /**
+     * 消息等级：信息
+     */
+    public final static Integer MSG_INFO = 2;
+    
+    /**
+     * 消息等级：提醒
+     */
+    public final static Integer MSG_NOTIFY = 3;
+    
+ 
+    
 }

@@ -4,7 +4,6 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import site.assad.datalabel.po.AdminUserPO;
 import site.assad.datalabel.po.FormPO;
 
 @Mapper
@@ -21,4 +20,9 @@ public interface FormMapper {
             "where form_id=#{formId}")
     void update(FormPO po);
     
+    /**
+     * 更新数据源数据
+     */
+    @Update("update form set source_count=source_count+#{sourceCount} where form_id=#{formId}")
+    void updateSourceCount(int sourceCount, String formId);
 }
