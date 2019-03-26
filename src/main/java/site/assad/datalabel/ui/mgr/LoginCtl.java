@@ -50,7 +50,7 @@ public class LoginCtl {
         adminInfo.setOrgId(po.getOrgId());
         SessionUtil.setAdminInfo(request, adminInfo);
         
-        ModelAndView mv = new ModelAndView("task_manager");
+        ModelAndView mv = new ModelAndView("forward:/taskManager.html");
         mv.addObject("adminInfo", adminInfo);
         return mv;
     }

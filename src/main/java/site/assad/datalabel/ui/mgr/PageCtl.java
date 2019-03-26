@@ -2,27 +2,31 @@ package site.assad.datalabel.ui.mgr;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import site.assad.datalabel.dto.AdminInfoDTO;
-import site.assad.datalabel.mapper.FormItemOptionMapper;
-import site.assad.datalabel.mapper.FormMapper;
-import site.assad.datalabel.mapper.FormTemplateMapper;
-import site.assad.datalabel.mapper.UserTaskMapper;
+import site.assad.datalabel.mapper.*;
 import site.assad.datalabel.po.FormItemOptionPO;
 import site.assad.datalabel.po.FormPO;
 import site.assad.datalabel.po.UserTaskPO;
+import site.assad.datalabel.po.WxUserPO;
+import site.assad.datalabel.util.DateUtil;
 import site.assad.datalabel.util.SessionUtil;
 import site.assad.datalabel.vo.FormTemplateVO;
 import site.assad.datalabel.vo.FormVO;
 import site.assad.datalabel.vo.MessageVO;
+import site.assad.datalabel.vo.TaskFormInfoVO;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static site.assad.datalabel.util.ConstantUtil.*;
@@ -44,6 +48,8 @@ public class PageCtl {
     UserTaskMapper userTaskMapper;
     @Resource
     FormItemOptionMapper formItemOptionMapper;
+    @Resource
+    WxUserMapper wxUserMapper;
     //什么分层实现、什么代码规范、什么开闭原则，见鬼去吧！我就是要快！
     
     @RequestMapping("/index.html")
@@ -100,6 +106,9 @@ public class PageCtl {
     }
     
     
+    /**
+     * 用户详情
+     */
     @RequestMapping("/orgInfo.html")
     public String toOrgInfo(HttpServletRequest request, ModelMap model) {
         //权限验证
@@ -108,12 +117,62 @@ public class PageCtl {
             return "index";
         }
         model.put("adminInfo", adminInfo);
+        //只取前6条数据
+        List<FormPO> formPOS = formMapper.selectByOrgId(adminInfo.getOrgId());
+        List<UserTaskPO> taskPOS = userTaskMapper.selectByOrgId(adminInfo.getOrgId());
         
+        int formPercent = 0;
+        int taskPercent = 0;
+        if (CollectionUtils.isNotEmpty(formPOS)) {
+            int totalForm =  formPOS.size();
+            int finishForm = (int)formPOS.stream().filter(po -> FORM_STATUS_FINISH.equals(po.getFormStatus())).count();
+            int totalTask = formPOS.stream().filter(po -> FORM_STATUS_FINISH.equals(po.getFormStatus())).mapToInt(FormPO::getLimitNum).sum();
+            formPercent = finishForm / totalForm;
+            formPOS = formPOS.stream().limit(6).collect(Collectors.toList());
+            if(CollectionUtils.isNotEmpty(taskPOS)) {
+                int finishTask = (int) taskPOS.stream().filter(po -> TASK_STATUS_FINISH.equals(po.getTaskStatus())).count();
+                taskPercent =  finishTask / totalTask;
+                taskPOS = taskPOS.stream().limit(6).collect(Collectors.toList());
+            }
+        }
+       
+        model.put("formPercent", formPercent);
+        model.put("taskPercent", taskPercent);
+        model.put("form", formPOS);
+        
+        //组装最近填单数据
+        List<TaskFormInfoVO> taskInfoVOS = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(taskPOS) && CollectionUtils.isNotEmpty(formPOS)) {
+            String userIds = taskPOS.stream().map(UserTaskPO::getUserId).distinct().map(id -> "'" + id + "'").collect(Collectors.joining(","));
+            List<WxUserPO> userPOS = wxUserMapper.selectByWXIds(userIds);
+            Map<String, String> wxUserDict = userPOS.stream().collect(Collectors.toMap(WxUserPO::getUserId, WxUserPO::getWxName));
+            Map<String, FormPO> formPODict = formPOS.stream().collect(Collectors.toMap(FormPO::getFormId, Function.identity()));
+            
+            for (UserTaskPO taskPO : taskPOS) {
+                TaskFormInfoVO taskInfo = new TaskFormInfoVO();
+                FormPO form = formPODict.get(taskPO.getFormId());
+                taskInfo.setFormTitle(form.getTitle());
+                if (FORM_TYPE_TEXT.equals(form.getType())) {
+                    taskInfo.setFormType("文本标注类型");
+                } else if (FORM_TYPE_PICTURE.equals(form.getType())){
+                    taskInfo.setFormType("图片标注类型");
+                } else if (FORM_TYPE_VOICE.equals(form.getType())){
+                    taskInfo.setFormType("音频标注类型");
+                } else {
+                    taskInfo.setFormType("");
+                }
+                Pair<String, String> pair = DateUtil.getMonAndDate(taskPO.getCreateTime());
+                taskInfo.setMonth(pair.getLeft());
+                taskInfo.setDate(pair.getRight());
+                taskInfoVOS.add(taskInfo);
+            }
+        }
+        model.put("taskInfo", taskInfoVOS);
         return "org_info";
     }
     
     /**
-     * 用户详情
+     * 表单详情
      */
     @RequestMapping("/formDetail.html")
     public String toFormDetail(HttpServletRequest request, ModelMap model, String formId){
