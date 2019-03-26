@@ -1,9 +1,6 @@
 package site.assad.datalabel.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import site.assad.datalabel.po.FormPO;
 
 import java.util.List;
@@ -30,5 +27,8 @@ public interface FormMapper {
      */
     @Update("update form set source_count=source_count+#{sourceCount} where form_id=#{formId}")
     void updateSourceCount(int sourceCount, String formId);
+    
+    @Delete("delete from form where form_id=#{id} ")
+    void delet(String id);
     
 }

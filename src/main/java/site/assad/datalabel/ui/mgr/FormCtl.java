@@ -448,4 +448,20 @@ public class FormCtl {
     }
     
     
+    /**
+     * 删除表单
+     */
+    @RequestMapping("/delete.do")
+    public String deleteForm(HttpServletRequest request, String formId) {
+        //权限验证
+        AdminInfoDTO adminInfo = SessionUtil.getAdminInfo(request);
+        if (adminInfo == null) {
+            return "index";
+        }
+        
+        formMapper.delet(formId);
+        
+        return "redirect:/taskManager.html";
+    }
+    
 }

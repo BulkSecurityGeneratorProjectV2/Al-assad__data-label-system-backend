@@ -65,6 +65,7 @@
                                     <th>创建时间</th>
                                     <th>操作</th>
                                     <th>操作</th>
+                                    <th>操作</th>
                                 </tr>
                                 </thead>
 
@@ -88,6 +89,12 @@
                                         <form th:action="@{/form/downloadData.do}" >
                                             <input type="hidden" name="formId" th:value="${form.formId}"/>
                                             <input type="submit" class="btn btn-primary" role="button" value="下载数据">
+                                        </form>
+                                    </td>
+                                    <td >
+                                        <form th:action="@{/form/delete.do}" >
+                                            <input type="hidden" name="formId" th:value="${form.formId}"/>
+                                            <input type="submit" class="btn btn-danger" role="button" value="删除">
                                         </form>
                                     </td>
                                 </tr>

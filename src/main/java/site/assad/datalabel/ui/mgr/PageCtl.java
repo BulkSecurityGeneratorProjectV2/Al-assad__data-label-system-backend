@@ -266,8 +266,7 @@ public class PageCtl {
             po.setLimitNum(templatePO.getLimitNum());
             po.setType(templatePO.getType());
             po.setFormStatus(FORM_STATUS_DRAFT);
-            //插入表单数据
-            formMapper.add(po);
+            type = po.getType();
         }
         
         model.put("adminInfo", adminInfo);
@@ -278,4 +277,5 @@ public class PageCtl {
     }
     
     
+
 }
