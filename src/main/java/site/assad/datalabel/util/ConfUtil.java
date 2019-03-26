@@ -13,6 +13,11 @@ public class ConfUtil {
     public final static String ASSERT_PATH = "./assert";
     
     /**
+     * 临时目录
+     */
+    public final static String TMP_PATH = "./tmp";
+    
+    /**
      * 上传文件大小限制 20M
      */
     public final static long UPLOAD_FILE_SIZE_LIMIT = 1024 * 1024 * 20;
