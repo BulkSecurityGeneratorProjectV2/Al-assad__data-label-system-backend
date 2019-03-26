@@ -40,10 +40,9 @@
                     <ul class="nav side-menu">
                         <li><a><i class="fa fa-cloud"></i> 模版中心 <span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
-                                <li><a th:href="@{/formCenter.html}">全部类型</a></li>
-                                <li><a th:href="@{/formCenter.html}">文本标注</a></li>
-                                <li><a th:href="@{/formCenter.html}">图片标注</a></li>
-                                <li><a th:href="@{/formCenter.html}">音频标注</a></li>
+                                <li><a th:href="@{/formCenter.html(type=1)}">文本标注</a></li>
+                                <li><a th:href="@{/formCenter.html(type=2)}">图片标注</a></li>
+                                <li><a th:href="@{/formCenter.html(type=3)}">音频标注</a></li>
                             </ul>
                         </li>
                         <li><a><i class="fa fa-cube"></i> 自定义模版 <span class="fa fa-chevron-down"></span></a>

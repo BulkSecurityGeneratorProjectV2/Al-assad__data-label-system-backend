@@ -55,9 +55,9 @@ public class ConstantUtil {
      */
     public final static Integer FORM_STATUS_PUBISH = 1;
     /**
-     * 表单状态：关闭
+     * 表单状态：完成
      */
-    public final static Integer FORM_STATUS_CLOSE = 2;
+    public final static Integer FORM_STATUS_FINISH = 2;
     
     /**
      * 缺省orgId

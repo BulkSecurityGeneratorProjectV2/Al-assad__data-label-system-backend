@@ -14,4 +14,10 @@ public class DateUtil {
         }
         return new SimpleDateFormat(DATE_TIME_PATTERN).format(date);
     }
+    public static String formatToDate(Date date){
+        if (date == null) {
+            return "";
+        }
+        return new SimpleDateFormat(DATE_PATTERN).format(date);
+    }
 }

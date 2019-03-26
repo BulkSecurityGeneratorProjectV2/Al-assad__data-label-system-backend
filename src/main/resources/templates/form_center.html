@@ -18,25 +18,13 @@
                     <div class="title_left">
                         <h3>数据标注任务模版中心</h3>
                     </div>
-                    <!-- search field -->
-                    <div class="title_right">
-                        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                            <form method="post" th:action="@{/form_center.html}">
-                                <div class="input-group">
-                                    <input type="text" name="keyword" class="form-control" placeholder="Search for...">
-                                    <span class="input-group-btn"><button class="btn btn-default" type="submit">查找</button>
-                                    </span>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="clearfix"></div>
 
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="x_panel" style="height:600px;">
+                        <div class="x_panel">
                             <div class="x_title">
                                 <h2>所有结果</h2>
                                 <ul class="nav navbar-right panel_toolbox">
@@ -46,13 +34,12 @@
                                 <div class="clearfix"></div>
                             </div>
 
-                            <div class="x_content">
+                            <div id="template-content" class="x_content">
                                 <div class="row">
-
                                     <div class="col-md-12">
 
                                         <!-- price element -->
-                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                        <div class="col-md-4 col-sm-4 col-xs-4" th:each="template : ${templates}">
                                             <div class="pricing ui-ribbon-container">
                                                 <!--new-->
                                                 <div class="ui-ribbon-wrapper">
@@ -62,8 +49,8 @@
                                                 </div>
                                                 <!--new-->
                                                 <div class="title">
-                                                    <h3>情感倾向标记</h3>
-                                                    <h4>文本型</h4>
+                                                    <h3 th:text="${template.title}"></h3>
+                                                    <h4 th:text="${template.type}"></h4>
                                                 </div>
                                                 <div class="x_content">
                                                     <div class="">
@@ -93,10 +80,10 @@
                                                                         </div>
                                                                         <div class="block_content">
                                                                             <div class="byline">
-                                                                                <span>2019-03-02</span> by <a>系统管理员</a>
+                                                                                <span th:text="${template.createTime}"></span> by
+                                                                                <a>系统管理员</a>
                                                                             </div>
-                                                                            <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
-                                                                            </p>
+                                                                            <p class="excerpt" th:text="${template.description}"></p>
                                                                         </div>
                                                                     </div>
                                                                 </li>
@@ -104,7 +91,11 @@
                                                         </div>
                                                     </div>
                                                     <div class="pricing_footer">
-                                                        <a href="javascript:void(0);" class="btn btn-success btn-block" role="button">创建任务</a>
+                                                        <form th:action="@{/addForm.do}">
+                                                            <input type="hidden" name="templateId" th:value="${template.templateId}"/>
+                                                            <input type="submit" class="btn btn-success btn-block" role="button"
+                                                                   value="创建任务">
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>

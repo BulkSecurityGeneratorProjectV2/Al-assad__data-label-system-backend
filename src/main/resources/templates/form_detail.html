@@ -38,12 +38,11 @@
                     <div class="x_panel">
 
                         <div class="x_title">
-                            <h2>编辑标注任务
-                                <small th:switch="${form.type}">
+                            <h2>编辑任务<small th:switch="${form.type}">
                                     <span th:case="${1}">文本类型标注任务</span>
                                     <span th:case="${2}">图片类型标注任务</span>
                                     <span th:case="${3}">音频类型标注任务</span>
-                                </small>
+                            </small>
                             </h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>

@@ -150,6 +150,8 @@ public class FormCtl {
             if (po.getSourceCount() == 0) {
                 msg = MessageVO.of(MSG_NOTIFY, "没有关联的数据源，请添加数据源后发布");
                 po.setFormStatus(FORM_STATUS_DRAFT);
+            } else if (po.getLimitNum() <= po.getCurNum()){
+                msg = MessageVO.of(MSG_NOTIFY, "限制任务数量小于发布任务数量");
             } else {
                 msg = MessageVO.of(MSG_SUCCESS, "标记任务发布成功！");
             }
@@ -328,6 +330,16 @@ public class FormCtl {
                     .collect(Collectors.toList());
         }
         return JSON.toJSONString(vos);
+    }
+    
+    
+    /**
+     * 下载表单数据，组装为csv文件
+     */
+    @ResponseBody
+    @RequestMapping("/downloadDate.do")
+    public void downloadDate(String formId){
+    
     }
     
     

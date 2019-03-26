@@ -9,7 +9,7 @@ import java.util.List;
 public interface FormItemOptionMapper {
     
     
-    @Select("select * from form_item_option where formId=#{formId}")
+    @Select("select * from form_item_option where form_id=#{formId}")
     List<FormItemOptionPO> selectByFormId(String formId);
     
     @Insert("insert into form_item_option(item_option_id,form_id,content,sort,create_time) values (#{itemOptionId},#{formId},#{content},#{sort},#{createTime)")
