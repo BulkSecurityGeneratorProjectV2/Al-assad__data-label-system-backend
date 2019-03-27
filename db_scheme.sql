@@ -93,7 +93,7 @@ create table form_data_source
   form_id        char(36) not null,
   data_type           tinyint          default null comment '数据类型：1-文本标注，2-图片标注，3-音频标注',
   content        text             default null comment '文本型内容',
-  path           varchar(150)     default null comment '文件型url',
+  path           varchar(200)     default null comment '文件型url',
   sort           tinyint unsigned default 1 comment '任务源排序',
   create_time    datetime,
   primary key (data_source_id),

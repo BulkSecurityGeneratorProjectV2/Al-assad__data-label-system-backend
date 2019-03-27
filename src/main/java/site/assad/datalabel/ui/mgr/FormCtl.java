@@ -443,7 +443,6 @@ public class FormCtl {
         } catch (FileNotFoundException e) {
             LOGGER.error(e.getMessage());
         }
-    
         return "文件下载失败";
     }
     
@@ -458,7 +457,6 @@ public class FormCtl {
         if (adminInfo == null) {
             return "index";
         }
-        
         formMapper.delet(formId);
         
         return "redirect:/taskManager.html";

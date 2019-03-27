@@ -11,7 +11,7 @@ public interface FormMapper {
     @Select("select * from form where form_id=#{id} ")
     FormPO selectById(String id);
     
-    @Select("select * from form where org_id=#{orgId} order by create_time ")
+    @Select("select * from form where org_id=#{orgId} order by create_time desc")
     List<FormPO> selectByOrgId(String orgId);
     
     @Insert("insert into form(form_id,org_id,title,description,cur_num,limit_num,source_count,form_status,type,item_type,item_content,create_time) " +

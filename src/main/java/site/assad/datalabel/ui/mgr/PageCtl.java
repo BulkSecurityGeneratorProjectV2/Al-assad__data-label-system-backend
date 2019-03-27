@@ -22,10 +22,7 @@ import site.assad.datalabel.vo.TaskFormInfoVO;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -82,7 +79,7 @@ public class PageCtl {
             totalForm =  formPOS.size();
             finishForm = (int)formPOS.stream().filter(po -> FORM_STATUS_FINISH.equals(po.getFormStatus())).count();
             startingForm = totalForm - finishForm;
-            totalTask = formPOS.stream().filter(po -> FORM_STATUS_FINISH.equals(po.getFormStatus())).mapToInt(FormPO::getLimitNum).sum();
+            totalTask = formPOS.stream().filter(po -> FORM_STATUS_PUBISH.equals(po.getFormStatus())).mapToInt(FormPO::getLimitNum).sum();
         }
         //查询任务
         List<UserTaskPO> taskPOS = userTaskMapper.selectByOrgId(adminInfo.getOrgId());
