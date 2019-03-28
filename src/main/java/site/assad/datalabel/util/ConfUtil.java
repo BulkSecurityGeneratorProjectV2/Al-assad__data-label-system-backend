@@ -21,4 +21,10 @@ public class ConfUtil {
      * 上传文件大小限制 20M
      */
     public final static long UPLOAD_FILE_SIZE_LIMIT = 1024 * 1024 * 20;
+    
+    /**
+     * 微信小程序配置资源
+     */
+    public static String WX_APP_ID = "wxfe25c305aa677f3d";
+    public static String WX_APP_SECRET = "9f15e55e261287b20e7272631be60c20";
 }
