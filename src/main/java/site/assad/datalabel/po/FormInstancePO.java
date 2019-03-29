@@ -1,6 +1,9 @@
 package site.assad.datalabel.po;
 
+import site.assad.datalabel.vo.FormInstanceParamVO;
+
 import java.util.Date;
+import java.util.UUID;
 
 public class FormInstancePO {
     
@@ -10,6 +13,17 @@ public class FormInstancePO {
     private String dataSourceId;
     private String itemContent;
     private Date createTime;
+    
+    public static FormInstancePO of(String formId, String userId, String dataSourceId, String content){
+        FormInstancePO po = new FormInstancePO();
+        po.setId(UUID.randomUUID().toString());
+        po.setDataSourceId(dataSourceId);
+        po.setFormId(formId);
+        po.setUserId(userId);
+        po.setItemContent(content);
+        po.setCreateTime(new Date());
+        return po;
+    }
     
     public String getId() {
         return id;

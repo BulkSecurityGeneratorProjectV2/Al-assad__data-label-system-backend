@@ -66,7 +66,21 @@ public class FormCtl {
     @Resource
     private UserTaskMapper userTaskMapper;
     
-    
+    private final static List<String> UN_DELETE_FORM_ID = Arrays.asList(
+            "159a17d8-4223-41f1-bf4e-e2180f9185a2",
+            "1c026bd8-837d-44b6-9718-5ec7cbc42e47",
+            "2ac7fa8c-2fdb-4827-b649-8206d4670241",
+            "2eb7eb65-d5d4-449c-82a4-485b7a67a8a3",
+            "3107903a-b6d7-4e6d-8e74-cebe44081034",
+            "462ad70d-f623-4994-9287-8918d8e79f4e",
+            "5205bffa-6900-4d2a-9c2a-32033e2ed573",
+            "5c820786-2411-49eb-b95c-8637bf3d4cee",
+            "674fa0a8-de3f-41db-8dc0-835598beb77c",
+            "7a859452-4843-4f32-a0c0-1096cb08520d",
+            "8a46bb31-4799-4d1a-8d48-1e893f9020fc",
+            "9c1749fd-27f8-4bd3-9b88-4ba2e3c04105",
+            "b0b5b5b8-0591-41c9-8211-90ecf6090364",
+            "ba853e65-425b-4536-b1ed-64a32616003c");
     /**
      * 新增表单
      */
@@ -448,15 +462,20 @@ public class FormCtl {
      * 删除表单
      */
     @RequestMapping("/delete.do")
-    public String deleteForm(HttpServletRequest request, String formId) {
+    public String deleteForm(HttpServletRequest request, String formId, ModelMap mode) {
         //权限验证
         AdminInfoDTO adminInfo = SessionUtil.getAdminInfo(request);
         if (adminInfo == null) {
             return "index";
         }
+        if (UN_DELETE_FORM_ID.contains(formId)) {
+            mode.put("deleteResult", "当前账号没有该标记任务的删除权限");
+            return "forward:/taskManager.html";
+        }
         formMapper.delet(formId);
         userTaskMapper.deleteByFormId(formId);
-        return "redirect:/taskManager.html";
+        mode.put("deleteResult", "删除成功！");
+        return "forward:/taskManager.html";
     }
     
 }

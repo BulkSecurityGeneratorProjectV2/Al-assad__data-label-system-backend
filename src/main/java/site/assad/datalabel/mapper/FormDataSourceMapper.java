@@ -8,8 +8,12 @@ import java.util.List;
 @Mapper
 public interface FormDataSourceMapper {
     
-    @Select("select * from form_data_source where form_id=#{id}")
+    @Select("select * from form_data_source where form_id=#{id} order by sort asc")
     List<FormDataSourcePO> selectByFormId(String id);
+    
+    
+    @Select("select * from form_data_source where data_source_id=#{id}")
+    FormDataSourcePO selectById(String id);
     
     @Insert("<script>" +
             "insert into form_data_source(data_source_id, form_id, data_type, content, path, sort, create_time) values" +

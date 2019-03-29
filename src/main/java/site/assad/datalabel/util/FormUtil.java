@@ -1,5 +1,7 @@
 package site.assad.datalabel.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class FormUtil {
     
     /**
@@ -12,9 +14,9 @@ public class FormUtil {
             case 1:
                 return "https://ws2.sinaimg.cn/large/006tKfTcly1g1hrpn5jogj302o02ot8o.jpg";
             case 2:
-                return "https://ws2.sinaimg.cn/large/006tKfTcly1g1hrqbh6dnj302k02nq2q.jpg";
+                return "https://ws3.sinaimg.cn/large/006tKfTcgy1g1jy4yy06oj302o02oweg.jpg";
             case 3:
-                return "https://ws2.sinaimg.cn/large/006tKfTcly1g1j49o5e9mj302o02odfo.jpg";
+                return "https://ws4.sinaimg.cn/large/006tKfTcgy1g1jy57t86dj302o02owef.jpg";
             default:
                 return "https://ws2.sinaimg.cn/large/006tKfTcly1g1hrpn5jogj302o02ot8o.jpg";
         }
@@ -46,4 +48,18 @@ public class FormUtil {
             default: return "其他类型";
         }
     }
+    
+    /**
+     * 获取资源真实路径
+     */
+    public static String getAssertUrl(String url){
+        if (StringUtils.isEmpty(url)) {
+            return "";
+        }
+        if (url.startsWith(".")){
+            url = url.substring(1);
+        }
+        return ConfUtil.BASE_URL + url;
+    }
+    
 }

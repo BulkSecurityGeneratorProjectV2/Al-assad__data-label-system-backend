@@ -27,4 +27,8 @@ public class ConfUtil {
      */
     public static String WX_APP_ID = "wxfe25c305aa677f3d";
     public static String WX_APP_SECRET = "9f15e55e261287b20e7272631be60c20";
+    /**
+     * 域名
+     */
+    public static String BASE_URL = "https://www.assad.site";
 }

@@ -2,6 +2,7 @@ package site.assad.datalabel.po;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import site.assad.datalabel.vo.FormInstanceParamVO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +22,27 @@ public class FormItemOptionPO {
     private String content;
     private int sort;
     private Date createTime;
+    
+    /**
+     * 构建列表
+     */
+    public static List<FormItemOptionPO> buildList(String formId, List<String> values){
+        if (StringUtils.isEmpty(formId) || CollectionUtils.isEmpty(values)) {
+            return new ArrayList<>(0);
+        }
+        Date now = new Date();
+        List<FormItemOptionPO> pos = new ArrayList<>(values.size());
+        for (int i = 0; i< values.size(); i++) {
+            FormItemOptionPO po = new FormItemOptionPO();
+            po.setItemOptionId(UUID.randomUUID().toString());
+            po.setContent(values.get(i));
+            po.setFormId(formId);
+            po.setSort(i+1);
+            po.setCreateTime(now);
+            pos.add(po);
+        }
+        return pos;
+    }
     
     public String getItemOptionId() {
         return itemOptionId;
@@ -62,24 +84,5 @@ public class FormItemOptionPO {
         this.createTime = createTime;
     }
     
-    /**
-     * 构建列表
-     */
-    public static List<FormItemOptionPO> buildList(String formId, List<String> values){
-        if (StringUtils.isEmpty(formId) || CollectionUtils.isEmpty(values)) {
-            return new ArrayList<>(0);
-        }
-        Date now = new Date();
-        List<FormItemOptionPO> pos = new ArrayList<>(values.size());
-        for (int i = 0; i< values.size(); i++) {
-            FormItemOptionPO po = new FormItemOptionPO();
-            po.setItemOptionId(UUID.randomUUID().toString());
-            po.setContent(values.get(i));
-            po.setFormId(formId);
-            po.setSort(i+1);
-            po.setCreateTime(now);
-            pos.add(po);
-        }
-        return pos;
-    }
+
 }

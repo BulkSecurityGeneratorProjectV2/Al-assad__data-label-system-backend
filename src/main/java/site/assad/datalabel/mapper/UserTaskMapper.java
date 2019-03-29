@@ -3,6 +3,7 @@ package site.assad.datalabel.mapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import site.assad.datalabel.po.UserTaskPO;
 
 import java.util.List;
@@ -12,6 +13,9 @@ public interface UserTaskMapper {
     
     @Select("select * from user_task where user_id=#{userId}")
     List<UserTaskPO> selectByUserId(String userId);
+    
+    @Select("select form_id from user_task where user_id=#{userId} and task_status=3")
+    List<String> selectFinishTaskFormIdByUserId(String userId);
     
     
     @Select("select * from user_task where user_id=#{userId} and form_id=#{formId}")
@@ -36,8 +40,11 @@ public interface UserTaskMapper {
             " (#{id},#{userId},#{formId},#{orgId},#{taskStatus},#{dataSourceSort},#{createTime})")
     void add(UserTaskPO po);
     
-    @Select("delete * from user_task where form_id=#{formId}")
+    @Select("delete from user_task where form_id=#{formId}")
     void deleteByFormId(String formId);
+    
+    @Update("update user_task set task_status=#{taskStatus}, data_source_sort=#{dataSourceSort} where form_id=#{formId}")
+    void updateStatusAndSort(String formId, Integer taskStatus, int dataSourceSort);
     
     
 }

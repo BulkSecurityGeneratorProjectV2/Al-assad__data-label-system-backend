@@ -42,6 +42,12 @@ public interface FormMapper {
     @Update("update form set source_count=source_count+#{sourceCount} where form_id=#{formId}")
     void updateSourceCount(int sourceCount, String formId);
     
+    /**
+     * 更新填单数量
+     */
+    @Update("update form set cur_num=cur_num+#{count}, form_status=#{status} where form_id=#{formId}")
+    void increaseCurNum(int count, String formId, Integer status);
+    
     @Delete("delete from form where form_id=#{id} ")
     void delet(String id);
     
@@ -50,6 +56,7 @@ public interface FormMapper {
     
     @Select("select sum(limit_num) from form where form_status='1'")
     long countPublishTask();
+    
     
     
 }
