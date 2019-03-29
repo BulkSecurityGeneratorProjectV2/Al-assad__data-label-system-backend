@@ -1,6 +1,12 @@
 package site.assad.datalabel.po;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.lang.NonNull;
+
 import java.util.Date;
+import java.util.UUID;
+
+import static site.assad.datalabel.util.ConstantUtil.TASK_STATUS_UN_START;
 
 /**
  * @author Al-assad
@@ -16,6 +22,18 @@ public class UserTaskPO {
     private Integer taskStatus;
     private Integer dataSourceSort;
     private Date createTime;
+    
+    public static UserTaskPO getInitPO(@NonNull String formId,@NonNull String userId, @NonNull String orgId){
+        UserTaskPO po = new UserTaskPO();
+        po.setId(UUID.randomUUID().toString());
+        po.setFormId(formId);
+        po.setUserId(userId);
+        po.setOrgId(orgId);
+        po.setTaskStatus(TASK_STATUS_UN_START);
+        po.setDataSourceSort(0);
+        po.setCreateTime(new Date());
+        return po;
+    }
     
     public String getId() {
         return id;
@@ -72,4 +90,6 @@ public class UserTaskPO {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+    
+    
 }

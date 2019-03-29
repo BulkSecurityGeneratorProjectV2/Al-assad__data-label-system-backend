@@ -1,6 +1,7 @@
 package site.assad.datalabel.mapper;
 
 import org.apache.ibatis.annotations.*;
+import site.assad.datalabel.po.AdminUserPO;
 import site.assad.datalabel.po.FormPO;
 
 import java.util.List;
@@ -8,8 +9,21 @@ import java.util.List;
 @Mapper
 public interface FormMapper {
     
+    
+    
     @Select("select * from form where form_id=#{id} ")
     FormPO selectById(String id);
+    
+    @Select("<script>" +
+            "select * from form where form_id in ( <foreach collection='list' item='item' index='index' separator=','>#{item}</foreach> ) " +
+            "</script>")
+    List<FormPO> selectByIds(@Param("list") List<String> ids);
+    
+    @Select("select * from form where form_status=#{status} ")
+    List<FormPO> selectByStat(Integer status);
+    
+    @Select("select * from form where form_status=#{status} and type=#{type} ")
+    List<FormPO> selectByStatAndType(Integer status, Integer type);
     
     @Select("select * from form where org_id=#{orgId} order by create_time desc")
     List<FormPO> selectByOrgId(String orgId);
@@ -30,5 +44,12 @@ public interface FormMapper {
     
     @Delete("delete from form where form_id=#{id} ")
     void delet(String id);
+    
+    @Select("select count(1) from form where form_status='1'")
+    long countPublishForm();
+    
+    @Select("select sum(limit_num) from form where form_status='1'")
+    long countPublishTask();
+    
     
 }

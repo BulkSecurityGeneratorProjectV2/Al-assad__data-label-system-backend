@@ -13,12 +13,31 @@ public interface UserTaskMapper {
     @Select("select * from user_task where user_id=#{userId}")
     List<UserTaskPO> selectByUserId(String userId);
     
+    
+    @Select("select * from user_task where user_id=#{userId} and form_id=#{formId}")
+    UserTaskPO selectByUserIdAndFormId(String userId, String formId);
+    
+    @Select("select * from user_task where user_id=#{userId} and task_status <> 3")
+    List<UserTaskPO> selectByUserIdUnFinish(String userId);
+    
+    @Select("select count(1) from user_task where user_id=#{userId}")
+    long countByUserId(String userId);
+    
+    @Select("select * from user_task where user_id=#{userId} and task_status=#{status}")
+    List<UserTaskPO> selectByUserIdAndStat(String userId, Integer status);
+    
+    @Select("select count(1) from user_task where user_id=#{userId} and task_status=#{status}")
+    long countByUserIdAndStat(String userId, Integer status);
+    
     @Select("select * from user_task where org_id=#{orgId}")
     List<UserTaskPO> selectByOrgId(String orgId);
     
     @Insert("insert into user_task(id,user_id,form_id,org_id,task_status,data_source_sort,create_time) values" +
             " (#{id},#{userId},#{formId},#{orgId},#{taskStatus},#{dataSourceSort},#{createTime})")
     void add(UserTaskPO po);
+    
+    @Select("delete * from user_task where form_id=#{formId}")
+    void deleteByFormId(String formId);
     
     
 }

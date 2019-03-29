@@ -19,14 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import site.assad.datalabel.dto.AdminInfoDTO;
 import site.assad.datalabel.dto.FormStatDTO;
-import site.assad.datalabel.mapper.FormDataSourceMapper;
-import site.assad.datalabel.mapper.FormInstanceMapper;
-import site.assad.datalabel.mapper.FormItemOptionMapper;
-import site.assad.datalabel.mapper.FormMapper;
-import site.assad.datalabel.po.FormDataSourcePO;
-import site.assad.datalabel.po.FormInstancePO;
-import site.assad.datalabel.po.FormItemOptionPO;
-import site.assad.datalabel.po.FormPO;
+import site.assad.datalabel.mapper.*;
+import site.assad.datalabel.po.*;
 import site.assad.datalabel.service.IFormService;
 import site.assad.datalabel.util.DateUtil;
 import site.assad.datalabel.util.SessionUtil;
@@ -69,6 +63,9 @@ public class FormCtl {
     private FormInstanceMapper formInstanceMapper;
     @Resource
     private FormDataSourceMapper formDataSourceMapper;
+    @Resource
+    private UserTaskMapper userTaskMapper;
+    
     
     /**
      * 新增表单
@@ -458,7 +455,7 @@ public class FormCtl {
             return "index";
         }
         formMapper.delet(formId);
-        
+        userTaskMapper.deleteByFormId(formId);
         return "redirect:/taskManager.html";
     }
     

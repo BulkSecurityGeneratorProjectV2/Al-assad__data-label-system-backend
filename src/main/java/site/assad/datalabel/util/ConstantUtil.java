@@ -34,6 +34,10 @@ public class ConstantUtil {
      * 表单类型：音频标注
      */
     public final static Integer FORM_TYPE_VOICE = 3;
+    /**
+     *
+     */
+    public final static Integer FORM_TYPE_ALL = 0;
     
     
     /**

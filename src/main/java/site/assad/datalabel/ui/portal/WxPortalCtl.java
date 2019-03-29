@@ -29,7 +29,6 @@ public class WxPortalCtl {
     @RequestMapping(value = "/wxLogin.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public String wxLogin(@RequestBody JSONObject jsonParam){
         String code = jsonParam.getString("code");
-        String openId = "";
         //访问微信api获取openid
         String url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + WX_APP_ID + "&secret=" + WX_APP_SECRET + "&js_code=" + code + "&grant_type=authorization_code";
         OkHttpClient client = new OkHttpClient();
