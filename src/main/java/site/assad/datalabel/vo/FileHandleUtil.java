@@ -38,7 +38,11 @@ public class FileHandleUtil {
                 } else {
                     OutputStream os = null;
                     try {
-                        os = new BufferedOutputStream(new FileOutputStream(new File(destDir, entry.getName())), BUFFER_SIZE);
+                        final File zipEntryFile = new File(destDir, entry.getName());
+                        if (!zipEntryFile.toPath().normalize().startsWith(destDir)) {
+                            throw new IOException("Bad zip entry");
+                        }
+                        os = new BufferedOutputStream(new FileOutputStream(zipEntryFile), BUFFER_SIZE);
                         IOUtils.copy(is, os);
                     } finally {
                         IOUtils.closeQuietly(os);
